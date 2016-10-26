@@ -83,7 +83,7 @@ int main (int argc, char *argv[]) {
 	int* recv_buf = new int[fix_size];
 	int* out = new int[(num_per_rank + fix_size)];
 	
-	for (int j = 1; j <= size; j++) {//processor level odd-even sort
+	for (int j = 1; j <= size + 1; j++) {//processor level odd-even sort
 	//odd and even phase sort j is odd for odd phase and even for even phase
 		if((rank != LAST)&&((rank + j) % 2==0)){
 			MPI_Send(local_buf, fix_size, MPI_INT, rank + 1, LEFT_SEND, custom_world);
