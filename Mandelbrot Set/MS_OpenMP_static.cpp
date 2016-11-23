@@ -93,7 +93,7 @@ int main (int argc, char *argv[]) {
 	//calculate complex c
 	complex<double> c;
 	double x_scale = (RIGHT - LEFT) / POINT_NUM_X;
-    double y_scale = (UPPER - LOWER) / POINT_NUM_Y;
+	double y_scale = (UPPER - LOWER) / POINT_NUM_Y;
 	int result;    	
 	int i, j;
 	omp_lock_t mylock;
@@ -104,10 +104,10 @@ int main (int argc, char *argv[]) {
 	}
 	#pragma omp parallel num_threads(THREAD_NUM) private(i, j, c, result)
     {
-        #pragma omp for schedule(static)
-        for(i = 0; i < POINT_NUM_Y; i++) {
-            for(j = 0; j < POINT_NUM_X; j++) {
-                c = complex<double>(LEFT + x_scale * j,LOWER + y_scale * i);
+	#pragma omp for schedule(static)
+	for(i = 0; i < POINT_NUM_Y; i++) {
+		for(j = 0; j < POINT_NUM_X; j++) {
+			c = complex<double>(LEFT + x_scale * j,LOWER + y_scale * i);
 				result = cal_pixel(c);
 				if(ENABLE_XWINDOW){
 					omp_set_lock(&mylock);
@@ -116,7 +116,7 @@ int main (int argc, char *argv[]) {
 					omp_unset_lock(&mylock);
 				}
 			}
-        }
+	}
 		if(ENABLE_XWINDOW) omp_destroy_lock(&mylock);
 	}
 	
