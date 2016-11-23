@@ -11,7 +11,6 @@ using namespace std;
 
 int cal_pixel(complex<double> c){
 	int k;
-//	double len;
 	complex<double> z(0, 0);
 	for(k = 0; k < MAX_ITERATION; k++){
 		z = z * z + c;
@@ -70,9 +69,9 @@ void Xwindow(int width, int height){
 int main (int argc, char *argv[]) {
 	
 	if (argc != 9) {
-        fprintf(stderr, "Insuficcient arguments\n");
-        fprintf(stderr, "Usage: ./%s N left right lower upper width height enable/disable\n", argv[0]);
-        exit(EXIT_FAILURE);
+		fprintf(stderr, "Insuficcient arguments\n");
+		fprintf(stderr, "Usage: ./%s N left right lower upper width height enable/disable\n", argv[0]);
+		exit(EXIT_FAILURE);
     }
 	const int THREAD_NUM = atoi(argv[1]);
 	const double LEFT = atof(argv[2]);
@@ -86,14 +85,14 @@ int main (int argc, char *argv[]) {
 	else if(strcmp(argv[8],"disable") == 0) ENABLE_XWINDOW = 0;
 	else {
 		fprintf(stderr, "Error argument: %s\n",argv[8]);
-        fprintf(stderr, "Usage: argument must be enable/disable\n");
+		fprintf(stderr, "Usage: argument must be enable/disable\n");
 		exit(EXIT_FAILURE);
 	}
 
 	//calculate complex c
 	complex<double> c;
 	double x_scale = (RIGHT - LEFT) / POINT_NUM_X;
-    double y_scale = (UPPER - LOWER) / POINT_NUM_Y;
+	double y_scale = (UPPER - LOWER) / POINT_NUM_Y;
 	int result;    	
 	int i, j;
 	omp_lock_t mylock;
@@ -102,11 +101,11 @@ int main (int argc, char *argv[]) {
 		omp_init_lock(&mylock);
 	}
 	#pragma omp parallel num_threads(THREAD_NUM) private(i, j, c, result)
-    {
-        #pragma omp for schedule(dynamic, 1)
-        for(i = 0; i < POINT_NUM_Y; i++) {
-            for(j = 0; j < POINT_NUM_X; j++) {
-                c = complex<double>(LEFT + x_scale * j,LOWER + y_scale * i);
+	{
+		#pragma omp for schedule(dynamic, 1)
+		for(i = 0; i < POINT_NUM_Y; i++) {
+			for(j = 0; j < POINT_NUM_X; j++) {
+				c = complex<double>(LEFT + x_scale * j,LOWER + y_scale * i);
 				result = cal_pixel(c);
 				if(ENABLE_XWINDOW){
 					omp_set_lock(&mylock);
@@ -115,7 +114,7 @@ int main (int argc, char *argv[]) {
 					omp_unset_lock(&mylock);
 				}
 			}
-        }
+		}
 		if(ENABLE_XWINDOW) omp_destroy_lock(&mylock);
 	}
 	
@@ -124,6 +123,5 @@ int main (int argc, char *argv[]) {
 		sleep(5);
 	}
 
-    return 0;
+	return 0;
 }
-	
