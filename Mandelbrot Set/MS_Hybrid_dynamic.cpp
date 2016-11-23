@@ -15,7 +15,6 @@ using namespace std;
 
 int cal_pixel(complex<double> c){
 	int i;
-//	double len;
 	complex<double> z(0, 0);
 	for(i = 0; i < MAX_ITERATION; i++){
 		z = z * z + c;
@@ -68,7 +67,7 @@ void Xwindow(int width, int height){
 	XMapWindow(display, window);
 	XSync(display, 0);
 	
-    XFlush(display);
+	XFlush(display);
 	return;
 }
 
@@ -83,10 +82,10 @@ int main (int argc, char *argv[]) {
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	
 	if (argc != 9) {
-        fprintf(stderr, "Insuficcient arguments\n");
-        fprintf(stderr, "Usage: ./%s N left right lower upper width height enable/disable\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+		fprintf(stderr, "Insuficcient arguments\n");
+		fprintf(stderr, "Usage: ./%s N left right lower upper width height enable/disable\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
 	const int THREAD_NUM = atoi(argv[1]);
 	const double LEFT = atof(argv[2]);
 	const double RIGHT = atof(argv[3]);
@@ -99,7 +98,7 @@ int main (int argc, char *argv[]) {
 	else if(strcmp(argv[8],"disable") == 0) ENABLE_XWINDOW = 0;
 	else {
 		fprintf(stderr, "Error argument: %s\n",argv[8]);
-        fprintf(stderr, "Usage: argument must be enable/disable\n");
+		fprintf(stderr, "Usage: argument must be enable/disable\n");
 		exit(EXIT_FAILURE);
 	}
 		
@@ -125,7 +124,7 @@ int main (int argc, char *argv[]) {
 	//calculate complex c
 	complex<double> c;
 	double x_scale = (RIGHT - LEFT) / POINT_NUM_X;
-    double y_scale = (UPPER - LOWER) / POINT_NUM_Y;
+	double y_scale = (UPPER - LOWER) / POINT_NUM_Y;
 	int i, j;
 	
 	
@@ -220,13 +219,13 @@ int main (int argc, char *argv[]) {
 		}
 		if(ENABLE_XWINDOW) {
 			XFlush(display);
-            sleep(5);
+			sleep(5);
 		}
 	}
 	    	
 	MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Finalize();
+	MPI_Finalize();
 
-    return 0;
+	return 0;
 }
 	
