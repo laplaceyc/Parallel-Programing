@@ -64,7 +64,7 @@ void Xwindow(int width, int height){
 	XMapWindow(display, window);
 	XSync(display, 0);
 		
-    XFlush(display);
+	XFlush(display);
 	return;
 }
 
@@ -78,10 +78,10 @@ int main (int argc, char *argv[]) {
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	
 	if (argc != 9) {
-        fprintf(stderr, "Insuficcient arguments\n");
-        fprintf(stderr, "Usage: ./%s N left right lower upper width height enable/disable\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
+		fprintf(stderr, "Insuficcient arguments\n");
+		fprintf(stderr, "Usage: ./%s N left right lower upper width height enable/disable\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
 	const int THREAD_NUM = atoi(argv[1]);
 	const double LEFT = atof(argv[2]);
 	const double RIGHT = atof(argv[3]);
@@ -94,7 +94,7 @@ int main (int argc, char *argv[]) {
 	else if(strcmp(argv[8],"disable") == 0) ENABLE_XWINDOW = 0;
 	else {
 		fprintf(stderr, "Error argument: %s\n",argv[8]);
-        fprintf(stderr, "Usage: argument must be enable/disable\n");
+		fprintf(stderr, "Usage: argument must be enable/disable\n");
 		exit(EXIT_FAILURE);
 	}
 	//deal with special case POINT_NUM_X < size
@@ -124,10 +124,10 @@ int main (int argc, char *argv[]) {
 	//calculate complex c
 	complex<double> c;
 	double x_scale = (RIGHT - LEFT) / POINT_NUM_X;
-    double y_scale = (UPPER - LOWER) / POINT_NUM_Y;
+	double y_scale = (UPPER - LOWER) / POINT_NUM_Y;
 	int total = POINT_NUM_X * POINT_NUM_Y;
 	int *local_buf = (int*)calloc(total, sizeof(int));
-    int position;
+	int position;
 	int i, j;
 	#pragma omp parallel num_threads(THREAD_NUM) private(i, j, c)
 	{
@@ -146,23 +146,25 @@ int main (int argc, char *argv[]) {
 	int m, n;
 	//last rank print xwindow
 	if(rank == size - 1 && ENABLE_XWINDOW) {
-        Xwindow(POINT_NUM_X, POINT_NUM_Y);
-        for(m = 0; m < POINT_NUM_Y; m++) {
-            for(n = 0; n < POINT_NUM_X; n++) {
-                position = m * POINT_NUM_X + n;
-                XSetForeground(display, gc, 1024*1024*(root_buf[position]%256));
-                XDrawPoint(display, window, gc, n, m);
-            }
-            XFlush(display);
-        }
-        sleep(5);
-    }
+		Xwindow(POINT_NUM_X, POINT_NUM_Y);
+		for(m = 0; m < POINT_NUM_Y; m++) {
+			for(n = 0; n < POINT_NUM_X; n++) {
+				position = m * POINT_NUM_X + n;
+				XSetForeground(display, gc, 1024*1024*(root_buf[position]%256));
+				XDrawPoint(display, window, gc, n, m);
+			}
+			XFlush(display);
+		}
+		sleep(5);
+	}
 		
-    free(root_buf);
+	free(root_buf);
 	
 	MPI_Barrier(custom_world);
-    MPI_Finalize();
+	MPI_Finalize();
 
-    return 0;
+	return 0;
 }
+	
+
 	
