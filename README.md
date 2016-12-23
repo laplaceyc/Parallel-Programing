@@ -18,7 +18,7 @@ And for three different memory architecture memtioned above (MPI/OpenMP/Hybrid),
 &nbsp;&nbsp;●Static scheduling<br>
 &nbsp;&nbsp;●Dynamic scheduling<br>
 # HW3 Single Source Shortest Path
-Use Pthread and MPI to do "Mandelbrot Set".<br>
+Use Pthread and MPI to do "Single Source Shortest Path".<br>
 There are three version by using<br>
 &nbsp;&nbsp;●Pthread: without amy limitation or constraints<br>
 &nbsp;&nbsp;●Fully distributed synchronous vertex-centric MPI<br>
