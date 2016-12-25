@@ -3,10 +3,13 @@ This repo is "NTHU Parallel Programing" course project.
 
 # HW1 Odd-Even Sort
 Use MPI to do "Odd-Even Sort".
+
 There are two versions by the following restriction.
 - Basic implementation
+
 Element level odd-even sort, each element can only be swapped with its adjacent elements in each operation.
 - Advances implementation
+
 Process level odd-even sort, only the communication pattern between processes is restricted.
 
 # HW2 Mandelbrot Set
