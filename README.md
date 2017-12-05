@@ -36,3 +36,12 @@ There are three version by using
 - Fully distributed asynchronous vertex-centric MPI
 
 The specification of two MPI versions can observe "PP_2016_HW3_v2" in folder and will explain in detail.
+
+# HW4 Blocked All-Pairs Shortest Path
+Use Cuda to do "Blocked All-Pairs Shortest Path" and take advantage of MPI/OpenMP on multi-GPU enviroment.
+
+There are three version by using
+
+- Single GPU: main algorithm implemented in CUDA C/C++ kernel functions.
+- Multi-GPU (OpenMP): hold the single GPU restriction, and utilize multiple GPUs available on single node.
+- Multi-GPU (MPI): utilize multiple GPUs available on multi node.
