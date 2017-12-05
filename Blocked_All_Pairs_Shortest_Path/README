@@ -1,0 +1,5 @@
+# Best block factor for performance test 
+
+cuda=16
+mpi=16
+openmp=32
